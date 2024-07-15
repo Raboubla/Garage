@@ -6,6 +6,7 @@ class Rendez_vous_model extends CI_Model {
     public function __construct() {
         parent::__construct();
         $this->load->database();
+        $this->load->library('fpdf');
     }
 
     // Vérifier les slots disponibles pour une date donnée et une durée
@@ -75,7 +76,55 @@ class Rendez_vous_model extends CI_Model {
         );
 
         $this->db->insert('rendez_vous', $data);
+        $insert_id = $this->db->insert_id();
+
+        // Générer le PDF
+        $this->generate_pdf($insert_id);
 
         return "Rendez-vous créé avec succès, slot: " . $id_slot;
+    }
+    // Fonction pour générer le PDF
+    private function generate_pdf($id) {
+        // Récupérer les données du rendez-vous inséré
+        $this->db->select('rendez_vous.*, services.nom as service_nom, voiture.numero as voiture_numero, slots.nom as slot_nom');
+        $this->db->from('rendez_vous');
+        $this->db->join('services', 'rendez_vous.id_service = services.id');
+        $this->db->join('voiture', 'rendez_vous.id_voiture = voiture.id');
+        $this->db->join('slots', 'rendez_vous.id_slot = slots.id');
+        $this->db->where('rendez_vous.id', $id);
+        $query = $this->db->get();
+        $rendez_vous = $query->row();
+
+        if (!$rendez_vous) {
+            echo "Rendez-vous non trouvé";
+            return;
+        }
+
+        // Créer un nouveau PDF
+        $pdf = new FPDF();
+        $pdf->AddPage();
+
+        // Définir les en-têtes
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 10, 'Détail du Rendez-vous', 0, 1, 'C');
+        $pdf->Ln(10);
+
+        // Ajouter les détails du rendez-vous
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(40, 10, 'ID:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->id, 0, 1);
+        $pdf->Cell(40, 10, 'Voiture:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->voiture_numero, 0, 1);
+        $pdf->Cell(40, 10, 'Date RDV:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->date_rdv, 0, 1);
+        $pdf->Cell(40, 10, 'Service:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->service_nom, 0, 1);
+        $pdf->Cell(40, 10, 'Slot:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->slot_nom, 0, 1);
+        $pdf->Cell(40, 10, 'Date Paiement:', 0);
+        $pdf->Cell(0, 10, $rendez_vous->date_paiement, 0, 1);
+
+        // Générer et afficher le PDF
+        $pdf->Output('D', 'rendez_vous_' . $rendez_vous->id . '.pdf');
     }
 }
