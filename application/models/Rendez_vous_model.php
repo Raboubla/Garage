@@ -8,71 +8,74 @@ class Rendez_vous_model extends CI_Model {
         $this->load->database();
     }
 
-    // Vérifier les slots disponibles pour une plage horaire donnée
-    public function check_slots($start_time, $end_time) {
-        // Heures d'ouverture en secondes depuis minuit
-        $opening_time = strtotime(date('Y-m-d', $start_time) . ' 08:00:00');
-        $closing_time = strtotime(date('Y-m-d', $start_time) . ' 18:00:00');
+    // Vérifier les slots disponibles pour une date donnée et une durée
+    private function check_slots($date_rdv, $duree) {
+        // Calculer la date de fin du rendez-vous proposé
+        $date_fin = date('Y-m-d H:i:s', strtotime($date_rdv) + strtotime($duree) - strtotime('TODAY'));
 
-        // Vérifier si le service dépasse les heures d'ouverture
-        if ($start_time < $opening_time || $end_time > $closing_time) {
-            return "Le service dépasse les heures d'ouverture";
-        }
-
-        // Convertir les timestamps en dates Y-m-d
-        $start_date = date('Y-m-d', $start_time);
-        $end_date = date('Y-m-d', $end_time);
-
-        // Vérifier les rendez-vous existants pour la plage horaire donnée
-        $this->db->select('id_slot, date_rdv');
+        // Sélectionner les slots occupés qui chevauchent le rendez-vous proposé
+        $this->db->select('id_slot');
         $this->db->from('rendez_vous');
-        $this->db->where('(DATE(date_rdv) = ' . $this->db->escape($start_date) . ' AND TIME(date_rdv) <= ' . date('H:i:s', $end_time) . ')');
-        $this->db->or_where('(DATE(date_rdv) = ' . $this->db->escape($end_date) . ' AND TIME(date_rdv) >= ' . date('H:i:s', $start_time) . ')');
+        $this->db->where('(
+            (date_rdv <= ' . $this->db->escape($date_rdv) . ' AND date_paiement >= ' . $this->db->escape($date_rdv) . ') OR 
+            (date_rdv <= ' . $this->db->escape($date_fin) . ' AND date_paiement >= ' . $this->db->escape($date_fin) . ') OR
+            (date_rdv >= ' . $this->db->escape($date_rdv) . ' AND date_paiement <= ' . $this->db->escape($date_fin) . ')
+        )', null, false);
         $query = $this->db->get();
-        $result = $query->result();
-
         $occupied_slots = array();
-        foreach ($result as $row) {
-            $existing_start_time = strtotime($row->date_rdv);
-            $existing_end_time = strtotime($row->date_rdv) + $row->duree * 3600;
 
-            // Vérifier si les rendez-vous existants chevauchent le nouveau rendez-vous
-            if (($start_time >= $existing_start_time && $start_time < $existing_end_time) ||
-                ($end_time > $existing_start_time && $end_time <= $existing_end_time)) {
-                $occupied_slots[] = $row->id_slot;
-            }
+        foreach ($query->result() as $row) {
+            $occupied_slots[] = $row->id_slot;
         }
 
-        // Slots possibles
+        // Récupérer tous les slots (1, 2, 3)
         $all_slots = range(1, 3);
-
-        // Trouver les slots libres
+        // Calculer les slots libres
         $free_slots = array_diff($all_slots, $occupied_slots);
 
         return $free_slots;
     }
 
-    // Insérer un nouveau rendez-vous détaillé
-    public function create_rendez_vous_detaille($id_voiture, $start_time, $end_time, $id_service, $duree_service, $date_paiement) {
-        $free_slots = $this->check_slots($start_time, $end_time);
+    // Créer un rendez-vous détaillé
+    public function create_rdv_detaille($id_voiture, $date_rdv, $id_service) {
+        // Récupérer la durée du service
+        $this->db->select('duree');
+        $this->db->from('services');
+        $this->db->where('id', $id_service);
+        $query = $this->db->get();
+        $service = $query->row();
 
-        if (is_string($free_slots)) {
-            return $free_slots;  // Retourner le message d'erreur s'il y en a un
-        } elseif (empty($free_slots)) {
-            return "Il n'y a pas de slot libre pour cette période";
-        } else {
-            $id_slot = array_shift($free_slots);  // Prendre le premier slot libre
-
-            $data = array(
-                'id_voiture' => $id_voiture,
-                'date_rdv' => date('Y-m-d H:i:s', $start_time),
-                'duree' => $duree_service,
-                'id_slot' => $id_slot,
-                'date_paiement' => $date_paiement
-            );
-
-            $this->db->insert('rendez_vous', $data);
-            return "Rendez-vous créé avec succès, slot: " . $id_slot;
+        if (!$service) {
+            return "Service non trouvé";
         }
+
+        // Calculer la date de paiement (date_rdv + duree)
+        $date_paiement = date('Y-m-d H:i:s', strtotime($date_rdv) + strtotime($service->duree) - strtotime('TODAY'));
+
+        // Vérifier les slots disponibles
+        $free_slots = $this->check_slots($date_rdv, $service->duree);
+
+        // Nombre de slots libres
+        $nb_free_slots = count($free_slots);
+
+        if ($nb_free_slots == 0) {
+            return "Il n'y a pas de slot libre pour la date " . $date_rdv;
+        }
+
+        // Prendre un slot libre (ici on prend le premier slot disponible)
+        $id_slot = reset($free_slots);
+
+        // Insérer le rendez-vous
+        $data = array(
+            'id_voiture' => $id_voiture,
+            'date_rdv' => $date_rdv,
+            'id_service' => $id_service,
+            'id_slot' => $id_slot,
+            'date_paiement' => $date_paiement
+        );
+
+        $this->db->insert('rendez_vous', $data);
+
+        return "Rendez-vous créé avec succès, slot: " . $id_slot;
     }
 }
