@@ -6,7 +6,7 @@
                     <div class="col-lg-6 grid-margin stretch-card w-100" style=" margin-bottom: 8%;">
                         <div class="col-md-5" style="margin-left: 35%;">
                             <form class="form">
-                                <p class="text-black-50 title" style="font-family: 'Oxanium', sans-serif; font-size: 29px;">Créer ou modifier</p> 
+                                <p class="text-black-50 titles" style="font-family: 'Oxanium', sans-serif; font-size: 29px;">Créer ou modifier</p> 
                                 <label>
                                     <input required="" placeholder="" type="text" class="input"><span>Nom du service</span>
                                 </label>

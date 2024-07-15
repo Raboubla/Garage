@@ -1,4 +1,5 @@
         <?php include 'header.php'?>
+        
         <main role="main">
             <!-- Hero -->
             <div class="content-space-t-lg-1 lib-hero overflow-hidden">
@@ -63,7 +64,7 @@
                             <div class="pack-container"> 
                                 <div class="header"> 
                                     <p class="title"> 
-      Reparation Simple </p> 
+                                     Reparation Simple </p> 
                                     <div class="price-container"><span>Ar</span>15000
                                     </div>                                     
                                 </div>

@@ -9,7 +9,7 @@
     position: relative;
 }
 
-.title {
+.titles {
     font-size: 28px;
     color: #ffc107;
     font-weight: 600;
@@ -20,8 +20,8 @@
     padding-left: 30px;
 }
 
-.title::before,
-.title::after {
+.titles::before,
+.titles::after {
     position: absolute;
     content: "";
     height: 16px;
@@ -31,13 +31,13 @@
     background-color: #93441a;
 }
 
-.title::before {
+.titles::before {
     width: 18px;
     height: 18px;
     background-color: #6c757d;
 }
 
-.title::after {
+.titles::after {
     width: 18px;
     height: 18px;
     animation: pulse 1s linear infinite;
@@ -131,15 +131,3 @@
         opacity: 0;
     }
 }
-
-/* Scroll effect */
-.scroll-effect {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  .scroll-effect.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
