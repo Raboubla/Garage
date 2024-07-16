@@ -15,7 +15,7 @@ class Admin extends CI_Model {
         if ($query->num_rows() == 1) {
             $admin = $query->row();
 
-            if (password_verify($mot_de_passe, $admin->mot_de_passe)) {
+            if ($mot_de_passe == $admin->mot_de_passe) {
                 return true;
             }
         }

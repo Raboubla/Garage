@@ -19,12 +19,12 @@
             <div class="row" style="margin-left: 40%; margin-top: 15%;">
                 <div class="form-container">
                     <div class="logo-container" style="font-size: 30px;">Sign In</div>
-                    <form class="form">
+                    <form class="form" action="<?php echo site_url('Login/LoginAdmin'); ?>" method="post">
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" id="email" name="email" placeholder="Enter your email" required="" style="width: 90%;">
+                            <label for="email">Login</label>
+                            <input type="text" id="email" name="login" placeholder="Enter your login" required="" style="width: 90%;" value="admin">
                             <label for="email">Password</label>
-                            <input type="password" id="email" name="email" placeholder="Enter your password" required="" style="width: 90%;">
+                            <input type="password" id="email" name="mdp" placeholder="Enter your password" required="" style="width: 90%;" value="admin">
                         </div>
                         <button class="form-submit-btn" type="submit">Connect</button>
                     </form>

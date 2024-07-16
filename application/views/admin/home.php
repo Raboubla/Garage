@@ -17,13 +17,13 @@
                     </div>
                     <div class="w-lg-65 mx-lg-auto">
                         <!-- Input Card -->
-                        <form>
+                        <form action="" method="post" id="formulaire">
                             <div class="input-card input-card-sm">
                                 <div class="input-card-form">
                                     <label for="nameRegisterForm" class="form-label visually-hidden">Enter your name</label>
                                     <input type="date" class="form-control form-control-lg" id="nameRegisterForm" placeholder="Your name" aria-label="Your name">
                                 </div>
-                                <button type="button" class="btn btn-primary btn-lg">Date du jour</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Date du jour</button>
                             </div>
                         </form>
                         <!-- End Input Card -->
@@ -122,3 +122,48 @@
             <!-- End FAQ -->
         </main>
         <?php include 'footer.php'?>
+        <script type="text/javascript">
+            window.addEventListener("load", function () {
+                function modifDateRef() {
+                    var date = document.getElementById("nameRegisterForm").value;
+
+                    var xhr;
+                    try {  xhr = new ActiveXObject('Msxml2.XMLHTTP');   }
+                    catch (e)
+                    {
+                        try {   xhr = new ActiveXObject('Microsoft.XMLHTTP'); }
+                        catch (e2)
+                        {
+                        try {  xhr = new XMLHttpRequest();  }
+                        catch (e3) {  xhr = false;   }
+                        }
+                    }
+
+                    var formData = new FormData();
+                    formData.append("date_ref", date);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                var response = JSON.parse(xhr.responseText);
+                                if (response.success) {
+                                    alert("Date de reference modifiée avec succes");
+                                } else {
+                                    alert("Erreur!");
+                                }
+                            } else {
+                                console.error("Erreur de requête AJAX");
+                            }
+                        }
+                    };
+
+                    xhr.open("POST", "<?php echo site_url('DateReference/update'); ?>", true);
+                    xhr.send(formData);
+                }
+                var form = document.getElementById("formulaire");
+
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    modifDateRef();
+                });
+            });
+        </script>
