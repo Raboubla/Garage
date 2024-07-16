@@ -113,4 +113,47 @@ class ServiceController extends CI_Controller {
             echo json_encode($response);
         }
 	}
+    /*public function import_csv_service() {
+        if(isset($_FILES['csv_file']['name']) && $_FILES['csv_file']['name'] != '') {
+            $file = $_FILES['csv_file']['tmp_name'];
+
+            $handle = fopen($file, "r");
+
+            fgetcsv($handle);
+
+            while (($row = fgetcsv($handle, 1000, ",")) !== false) {
+                $data = array(
+                    'nom' => $row[0],
+                    'duree' => $row[1]      
+                );
+
+                $this->Service_model->insert_service($data);
+            }
+
+            fclose($handle);
+
+            redirect('service/index?success=1');
+        } else {
+            echo "Veuillez sélectionner un fichier CSV.";
+        }
+    }
+
+    public function import_csv_travaux() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if(isset($_FILES['csv_file']['name']) && $_FILES['csv_file']['name'] != '') {
+                $file = $_FILES['csv_file']['tmp_name'];
+
+                $import_result = $this->Service_model->import_csv_travaux($file);
+
+                if ($import_result) {
+                    redirect('service/index?success=1');
+                } else {
+                    echo "Erreur lors de l'importation des données.";
+                }
+            } else {
+                echo "Veuillez sélectionner un fichier CSV.";
+            }
+        }
+    }*/
+    
 }

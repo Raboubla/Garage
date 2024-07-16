@@ -60,44 +60,9 @@
                         <h2>Voici les services disponible</h2>
                     </div>
                     <div class="position-relative">
-                        <div class="d-flex mb-5 row">
-                            <div class="pack-container">
-                                <div class="header">
-                                    <p class="title">
-                                        Reparation Simple </p>
-                                    <div class="price-container"><span>Ar</span>15000
-                                    </div>
-                                </div>
-                                <h4 class="fs-3 title" style="margin-left: 26.862000000000002%;">Duree : <span>1h</span></h4>
-                                <div class="button-container">
-                                    <button type="button">Modifier</button>
-                                </div>
-                            </div>
-                            <div class="pack-container">
-                                <div class="header">
-                                    <p class="title">Reparation&nbsp; standard</p>
-                                    <div class="price-container">
-                                        <span>Ar</span>25000
-                                    </div>
-                                </div>
-                                <h4 class="fs-3 title" style="margin-left: 26.862000000000002%;">Duree : <span>2h</span></h4>
-                                <div class="button-container">
-                                    <button type="button">Modifier</button>
-                                </div>
-                            </div>
-                            <div class="pack-container">
-                                <div class="header">
-                                    <p class="title">
-                                        Reparation Complexe </p>
-                                    <div class="price-container"><span>Ar</span>80000
-                                    </div>
-                                </div>
-                                <h4 class="fs-3 title" style="margin-left: 26.862000000000002%;">Duree : <span>8h</span></h4>
-                                <div class="button-container">
-                                    <button type="button">Modifier</button>
-                                </div>
-                            </div>
-                            <!-- End Col -->
+                        <div class="d-flex mb-5 row" id="tab">
+                            
+                        <!-- End Col -->
                             <!-- End Col -->
                         </div>
                         <!-- End Row -->
@@ -186,7 +151,89 @@
                     xhr.open("POST", "<?php echo site_url('DateReference/update'); ?>", true);
                     xhr.send(formData);
                 }
+                function getAllServices() {
+                var xhr;
+                try {
+                    xhr = new ActiveXObject('Msxml2.XMLHTTP');
+                } catch (e) {
+                    try {
+                        xhr = new ActiveXObject('Microsoft.XMLHTTP');
+                    } catch (e2) {
+                        try {
+                            xhr = new XMLHttpRequest();
+                        } catch (e3) {
+                            xhr = false;
+                        }
+                    }
+                }
+
+                var tab = document.getElementById("tab");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.success && response.services != null) {
+                                var services = response.services;
+                                tab.innerHTML = '';
+                                for (var i = 0; i < services.length; i++) {
+                                    // Création des éléments pour chaque service
+                                    var service = services[i];
+
+                                    var serviceDiv = document.createElement('div');
+                                    serviceDiv.classList.add('pack-container');
+
+                                    var serviceHeader = document.createElement('div');
+                                    serviceHeader.classList.add('header');
+
+                                    var serviceName = document.createElement('p');
+                                    serviceName.classList.add('title');
+                                    serviceName.textContent = service.nom;
+
+                                    var priceContainer = document.createElement('div');
+                                    priceContainer.classList.add('price-container');
+
+                                    var servicePrice = document.createElement('span');
+                                    servicePrice.textContent = 'Ar ' + service.montant;
+
+                                    var h4 = document.createElement('h4');
+                                    h4.classList.add('fs-3', 'title');
+                                    h4.style.marginLeft = '26.862%';
+                                    h4.innerHTML = 'Duree : <span>' + service.duree + '</span>';
+
+                                    var buttonContainer = document.createElement('div');
+                                    buttonContainer.classList.add('button-container');
+
+                                    var serviceButton = document.createElement('button');
+                                    serviceButton.textContent = 'Modifier';
+                                    serviceButton.type = 'button';
+
+                                    // Ajout des éléments créés à serviceDiv
+                                    serviceHeader.appendChild(serviceName);
+                                    priceContainer.appendChild(servicePrice);
+                                    serviceHeader.appendChild(priceContainer);
+                                    serviceDiv.appendChild(serviceHeader);
+                                    serviceDiv.appendChild(h4);
+                                    buttonContainer.appendChild(serviceButton);
+                                    serviceDiv.appendChild(buttonContainer);
+
+                                    // Ajout de serviceDiv à l'élément avec id="tab"
+                                    tab.appendChild(serviceDiv);
+                                }
+                            } else {
+                                alert("Erreur de getAll!");
+                            }
+                        } else {
+                            console.error("Erreur de requête AJAX");
+                        }
+                    }
+                };
+
+                xhr.open("POST", "<?php echo site_url('ServiceController/getAllServices'); ?>", true);
+                xhr.send(null);
+            }
                 var form = document.getElementById("formulaire");
+
+                getAllServices();
 
                 form.addEventListener("submit", function(event) {
                     event.preventDefault();
