@@ -15,6 +15,7 @@
                             Travaux
                             <input type="file" accept="image/*" required="" class="btn-outline-primary" id="file-input">
                         </label>
+                        <input type="submit" class="btn-primary" style="background-color:#fff ; color:#0d45a5; border-color:#0d45a5" value="Valider">
                     </form>
                 </div>
             </div>
