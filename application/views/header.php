@@ -34,7 +34,7 @@
                         <li class="nav-item">
                         </li>
                         <li class="nav-item dropdown">
-                        </li> <a class="nav-link" href="#">Rendez-vous</a>
+                        </li> <a class="nav-link" href="<?php echo site_url('Client_rdv'); ?>">Rendez-vous</a>
                     </ul>
                 </div>
             </div>
