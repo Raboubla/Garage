@@ -34,11 +34,11 @@
                     <ul class="ms-auto navbar-nav"> 
                         <li class="nav-item"> <a class="active nav-link" aria-current="page" href="<?php echo site_url('Home'); ?>">Home</a> 
                         </li>                         
-                        <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('Devis'); ?>">Devis</a> 
-                        </li>                         
-                        <li class="nav-item"> <a class="nav-link" href="rdv">Rendez-vous</a> 
-                        </li>                         
+                        <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('Devis'); ?>">Devis</a></li>                         
+                        <li class="nav-item"> <a class="nav-link" href="rdv">Rendez-vous</a></li>                         
                         <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('Service'); ?>">Services</a></li>                                             
+                        <li class="nav-item"> <a class="nav-link" href="<?php echo site_url('Donnee'); ?>">Importation donées</a></li>                                             
+
                     </ul>                     
                 </div>
             </div>             
