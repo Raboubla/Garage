@@ -95,6 +95,8 @@
                                 var response = JSON.parse(xhr.responseText);
                                 if (response.success) {
                                     alert(response.msg);
+                                    var pdfPath = response.pdf_path;
+                                    window.location.href = 'http://localhost/garage/' + pdfPath;
                                 } else {
                                     alert(response.msg);
                                 }

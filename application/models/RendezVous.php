@@ -130,11 +130,11 @@ class RendezVous extends CI_Model {
 
         // Générer le nom du fichier PDF
         $pdf_file = 'rendez_vous_' . $rendez_vous->id . '.pdf';
-        $pdf_path = FCPATH . 'uploads/' . $pdf_file;
+        $pdf_path = FCPATH . $pdf_file;
 
         // Sauvegarder le PDF sur le serveur
         $pdf->Output('F', $pdf_path);
 
-        return 'uploads/' . $pdf_file; // Retourner le chemin relatif du fichier PDF
+        return $pdf_file; // Retourner le chemin relatif du fichier PDF
     }
 }
