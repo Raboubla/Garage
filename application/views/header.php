@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/admin/pinekit_theme/pinekit.css') ?>">
 
     <link rel="stylesheet" href="<?php echo base_url('assets/admin/css/admin/service.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/vendor/bootstrap-icons/font/bootstrap-icons.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/admin/assets/vendors/typicons.font/font/typicons.css'); ?>">
 
 </head>
 
@@ -32,7 +34,7 @@
                         <li class="nav-item">
                         </li>
                         <li class="nav-item dropdown">
-                        </li> <a class="nav-link" href="<?php echo site_url('Client_rdv'); ?>">Rendez-vous</a>
+                        </li> <a class="nav-link" href="#">Rendez-vous</a>
                     </ul>
                 </div>
             </div>
