@@ -39,7 +39,7 @@
                                             <td>Reparation Simple</td>
                                             <td>1 <span>heures</span></td>
                                             <td class="text-danger"><span>Ar</span> 15000</td>
-                                            <td style="width: 25%;"> <a class="btn btn-light btn-outline-primary placeholder-wave rounded rounded-1" href="#">Modifier</a><a class="btn btn-danger btn-outline-light placeholder-wave rounded rounded-1 text-white" href="#">Supprimer</a> </td>
+                                            <td style="width: 25%;"> <a class="btn btn-light btn-outline-primary placeholder-wave rounded rounded-1" href="#">Modifier</a><a class="btn btn-  btn-outline-light placeholder-wave rounded rounded-1 text-white" href="#">Supprimer</a> </td>
                                         </tr>
                                     </tbody>
                                 </table>
