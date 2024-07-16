@@ -5,15 +5,27 @@
         <div class="container position-relative content-space-t-3 content-space-b-2">
             <div class="col-lg-4 grid-margin stretch-card w-100">
                 <div class="card-body" style="width: 100%;">
-                    <form class="form" style="margin-left:35% ; width:100%">
-                        <span class="form-title">Importation des données</span>
+                    <form class="form" style="margin-left:35% ; width:100%" action="<?php echo site_url('ControllerImport/import_services'); ?>" method="post" enctype="multipart/form-data">
+                        <span class="form-title">Importation des services</span>
                         <label for="file-input" class="drop-container">
                             Service
-                            <input type="file" accept="image/*" required="" id="file-input">
+                            <input name="csv_file" type="file" required="" id="file-input">
                         </label>
+                        <input type="submit" class="btn-primary" style="background-color:#fff ; color:#0d45a5; border-color:#0d45a5" value="Valider">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-space-t-lg-1 lib-hero overflow-hidden text-black-50">
+        <div class="container position-relative content-space-t-3 content-space-b-2">
+            <div class="col-lg-4 grid-margin stretch-card w-100">
+                <div class="card-body" style="width: 100%;">
+                    <form class="form" style="margin-left:35% ; width:100%" action="<?php echo site_url('ControllerImport/import_rendez_vous'); ?>" method="post" enctype="multipart/form-data">
+                        <span class="form-title">Importation des travaux</span>
                         <label for="file-input" class="drop-container ">
                             Travaux
-                            <input type="file" accept="image/*" required="" class="btn-outline-primary" id="file-input">
+                            <input name="csv_file" type="file" required="" class="btn-outline-primary" id="file-input">
                         </label>
                         <input type="submit" class="btn-primary" style="background-color:#fff ; color:#0d45a5; border-color:#0d45a5" value="Valider">
                     </form>

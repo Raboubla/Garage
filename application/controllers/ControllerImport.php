@@ -26,6 +26,7 @@ class ControllerImport extends CI_Controller {
 
             // Afficher le résultat de l'importation
             echo $result;
+            redirect("donnee");
         } else {
             echo "Veuillez sélectionner un fichier CSV.";
         }
@@ -42,6 +43,7 @@ class ControllerImport extends CI_Controller {
 
             // Afficher le résultat de l'importation
             echo $result;
+            redirect("donnee");
         } else {
             echo "Veuillez sélectionner un fichier CSV.";
         }
