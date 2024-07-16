@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Client_service extends CI_Controller {
+class Client_rdv extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,6 +20,6 @@ class Client_service extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('service');
+		$this->load->view('rendezVous');
 	}
 }

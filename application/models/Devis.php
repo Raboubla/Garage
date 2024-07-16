@@ -10,18 +10,18 @@ class Devis extends CI_Model {
 
     // Fonction pour obtenir tous les rendez-vous
     public function get_all_rendez_vous() {
-        $query = $this->db->get('rendez_vous');
+        $query = $this->db->get('garage_rendez_vous');
         return $query->result();
     }
 
     // Fonction pour mettre à jour la date_paiement
     public function update_date_paiement($id, $date_paiement) {
         $this->db->where('id', $id);
-        return $this->db->update('rendez_vous', array('date_paiement' => $date_paiement));
+        return $this->db->update('garage_rendez_vous', array('date_paiement' => $date_paiement));
     }
 
     // Fonction pour ajouter un nouveau rendez-vous
     public function create_rendez_vous($data) {
-        return $this->db->insert('rendez_vous', $data);
+        return $this->db->insert('garage_rendez_vous', $data);
     }
 }

@@ -11,7 +11,7 @@ class DateDuJour extends CI_Model {
     // Fonction pour obtenir la date_ref
     public function get_date_ref($id) {
         $this->db->select('date_ref');
-        $this->db->from('infos');
+        $this->db->from('garage_infos');
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row();
@@ -20,6 +20,6 @@ class DateDuJour extends CI_Model {
     // Fonction pour mettre à jour la date_ref
     public function update_date_ref($id, $date_ref) {
         $this->db->where('id', $id);
-        return $this->db->update('infos', array('date_ref' => $date_ref));
+        return $this->db->update('garage_infos', array('date_ref' => $date_ref));
     }
 }

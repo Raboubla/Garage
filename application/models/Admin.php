@@ -10,7 +10,7 @@ class Admin extends CI_Model {
 
     public function login($login, $mot_de_passe) {
         $this->db->where('login', $login);
-        $query = $this->db->get('admin');
+        $query = $this->db->get('garage_admin');
 
         if ($query->num_rows() == 1) {
             $admin = $query->row();

@@ -7,7 +7,7 @@
                         <div class="mb-5"> 
                             <h1 class="display-4 text-dark mb-5">Roulez en toute tranquillité avec&nbsp;<span class="text-primary">Garazy</span></h1> 
                         </div>                         
-                        <div class="d-grid d-sm-flex gap-3 mb-5"> <a class="btn btn-primary" href="#">Prendre un rendez-vous</a> <a class="btn btn-ghost-dark btn-pointer" href="#">Notre services</a> 
+                        <div class="d-grid d-sm-flex gap-3 mb-5"> <a class="btn btn-primary" href="<?php echo site_url('Client_rdv'); ?>">Prendre un rendez-vous</a> <a class="btn btn-ghost-dark btn-pointer" href="#">Notre services</a> 
                         </div>                         
                     </div>                     
                     <!-- End Col -->                     

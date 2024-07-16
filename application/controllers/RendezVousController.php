@@ -22,6 +22,10 @@ class RendezVousController extends CI_Controller {
             $date_rdv = $this->input->post('date_rdv');
             $service = $this->input->post('service');
             $res = $this->RendezVous->create_rdv_detaille($voiture, $date_rdv, $service);
+            if ($res['success']) {
+                // Rediriger vers la page de téléchargement du PDF généré
+                redirect(base_url($res['pdf_path']));
+            } 
             if ($res["success"]) {
                 $response = array("success" => true, "msg" => $res["msg"]);    
             }
