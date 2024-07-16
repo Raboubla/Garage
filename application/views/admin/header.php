@@ -18,7 +18,9 @@
         <!-- Pour admin/service.php -->
         <link rel="stylesheet" href="<?php echo base_url('assets/admin/css/admin/service.css');?>">
 
-    </head>
+		<script src='<?php echo base_url('assets/dist/index.global.js')?>'></script>
+
+	</head>
     <body>
         <header>
 </header>
@@ -34,7 +36,7 @@
                         </li>                         
                         <li class="nav-item"> <a class="nav-link" href="devis">Devis</a> 
                         </li>                         
-                        <li class="nav-item"> <a class="nav-link" href="rdv.php">Rendez-vous</a> 
+                        <li class="nav-item"> <a class="nav-link" href="rdv">Rendez-vous</a> 
                         </li>                         
                         <li class="nav-item"> <a class="nav-link" href="service">Services</a></li>                                             
                     </ul>                     
