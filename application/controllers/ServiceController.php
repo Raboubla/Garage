@@ -62,7 +62,7 @@ class ServiceController extends CI_Controller {
                 'duree' => $this->input->post('duree'),
                 'montant' => $this->input->post('montant')
             );
-            $res = $this->Devis->create_service($data);
+            $res = $this->Service->create_service($data);
             
             if ($res) {
                 $response = array("success" => true);    
@@ -82,7 +82,7 @@ class ServiceController extends CI_Controller {
             echo json_encode($response);
         } else {   
             $id = $this->input->post('id');
-            $service = $this->Devis->get_service_by_id($id);
+            $service = $this->Service->get_service_by_id($id);
             
             if ($service != null) {
                 $response = array("success" => true, "service" => $service);    

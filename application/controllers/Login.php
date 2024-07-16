@@ -15,8 +15,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('mdp', 'mdp', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('');
-            echo "Erreur. Veuillez réessayer.";
+            $this->load->view('admin/index');
         } else {
             $login = $this->input->post('login');
             $mdp = $this->input->post('mdp');
@@ -24,18 +23,16 @@ class Login extends CI_Controller {
 
             if ($resultat) {
                 $this->session->set_userdata('actif_admin', $login);
-                $this->load->view('');
-                echo "Réussie !";
+                $this->load->view('admin/home');
             } else {
-                $this->load->view('');
-                echo "Erreur. Veuillez réessayer.";
+                $this->load->view('admin/index');
             }
         }
 	}
     public function logoutAdmin()
     {
         $this->session->unset_userdata('actif_admin');
-        $this->load->view('');
+        $this->load->view('admin/index');
     }
     public function loginUser()
 	{
