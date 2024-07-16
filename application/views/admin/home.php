@@ -119,7 +119,10 @@
             </div>
             <div  style="margin-top: 5%; margin-bottom: 5%; height:350px; margin-left:50% ">
                 <div class="container ">
-                    <button class="button" >
+                <form action="<?php echo site_url('cleanup_controller/execute_truncate'); ?>" method="post">
+        
+                
+                    <button class="button" type="submit">
                         <div class="lid">
                             <span class="side top"></span>
                             <span class="side front"></span>
@@ -138,7 +141,7 @@
                             </div>
                         </div>
                     </button>
-
+                </form>
                 </div>
             </div>
             <!-- End Pricing -->
