@@ -9,7 +9,7 @@ class Voiture extends CI_Model {
     }
     public function check_voiture($numero, $type) {
         $this->db->select('*');
-        $this->db->from('voiture');
+        $this->db->from('garage_voiture');
         $this->db->where('numero', $numero);
         $query = $this->db->get();
         $voiture = $query->row();
@@ -19,12 +19,14 @@ class Voiture extends CI_Model {
                 'numero' => $numero,
                 'id_type' => $type
             );
-            return $this->db->insert('voiture', $data);
+            return $this->db->insert('garage_voiture', $data);
         } else {
-            if ($voiture->$type == $type) {
-                return true;
+            if ($voiture->id_type == $type) {
+                $response = array("success" => true, "voiture" => $voiture);
+                return $response;
             } else {
-                return false;
+                $response = array("success" => false, "voiture");
+                return $response;
             }
         }
     }

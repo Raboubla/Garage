@@ -23,7 +23,7 @@ class RendezVousController extends CI_Controller {
             $service = $this->input->post('service');
             $res = $this->RendezVous->create_rdv_detaille($voiture, $date_rdv, $service);
             if ($res["success"]) {
-                $response = array("success" => true, "msg" => $res["msg"]);    
+                $response = array("success" => true, "pdf_path" => $res['pdf_path']);    
             }
             else {
                 $response = array("success" => false, "msg" => $res["msg"]);

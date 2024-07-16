@@ -40,26 +40,24 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('type', 'Type', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('');
-            echo "Erreur. Veuillez réessayer.";
+            $this->load->view('index');
         } else {
             $numero = $this->input->post('numero');
             $type = $this->input->post('type');
             $resultat = $this->Voiture->check_voiture($numero, $type);
 
-            if ($resultat) {
-                $this->session->set_userdata('actif_user', $numero);
-                $this->load->view('');
-                echo "Réussie !";
+            if ($resultat["success"]) {
+                $this->session->set_userdata('actif_user', $resultat["voiture"]);
+                $this->load->view('home');
             } else {
-                $this->load->view('');
-                echo "Erreur. Veuillez réessayer.";
+                $this->load->view('index');
             }
         }
 	}
     public function logoutUser()
     {
         $this->session->unset_userdata('actif_user');
-        $this->load->view('');
+        $this->load->view('index');
     }
+    
 }

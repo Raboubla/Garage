@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(APPPATH . 'third_party/fpdf/fpdf.php');
+
 class RendezVous extends CI_Model {
 
     public function __construct() {
         parent::__construct();
         $this->load->database();
-        $this->load->library('fpdf');
     }
 
     // Vérifier les slots disponibles pour une date donnée et une durée
@@ -16,7 +17,7 @@ class RendezVous extends CI_Model {
 
         // Sélectionner les slots occupés qui chevauchent le rendez-vous proposé
         $this->db->select('id_slot');
-        $this->db->from('rendez_vous');
+        $this->db->from('garage_rendez_vous');
         $this->db->where('(
             (date_rdv <= ' . $this->db->escape($date_rdv) . ' AND date_paiement >= ' . $this->db->escape($date_rdv) . ') OR 
             (date_rdv <= ' . $this->db->escape($date_fin) . ' AND date_paiement >= ' . $this->db->escape($date_fin) . ') OR
@@ -41,7 +42,7 @@ class RendezVous extends CI_Model {
     public function create_rdv_detaille($id_voiture, $date_rdv, $id_service) {
         // Récupérer la durée du service
         $this->db->select('duree');
-        $this->db->from('services');
+        $this->db->from('garage_services');
         $this->db->where('id', $id_service);
         $query = $this->db->get();
         $service = $query->row();
@@ -75,29 +76,32 @@ class RendezVous extends CI_Model {
             'date_paiement' => $date_paiement
         );
 
-        $this->db->insert('rendez_vous', $data);
+        $this->db->insert('garage_rendez_vous', $data);
         $insert_id = $this->db->insert_id();
 
         // Générer le PDF
-        $this->generate_pdf($insert_id);
+        $pdf_path = $this->generate_pdf($insert_id);
 
-        return array("success" => true, "msg" => "Rendez-vous créé avec succès, slot: " . $id_slot);
+        if ($pdf_path) {
+            return array("success" => true, "pdf_path" => $pdf_path);
+        } else {
+            return array("success" => false, "msg" => "Erreur lors de la génération du PDF");
+        }
     }
     // Fonction pour générer le PDF
     private function generate_pdf($id) {
         // Récupérer les données du rendez-vous inséré
-        $this->db->select('rendez_vous.*, services.nom as service_nom, voiture.numero as voiture_numero, slots.nom as slot_nom');
-        $this->db->from('rendez_vous');
-        $this->db->join('services', 'rendez_vous.id_service = services.id');
-        $this->db->join('voiture', 'rendez_vous.id_voiture = voiture.id');
-        $this->db->join('slots', 'rendez_vous.id_slot = slots.id');
-        $this->db->where('rendez_vous.id', $id);
+        $this->db->select('garage_rendez_vous.*, garage_services.nom as service_nom, garage_voiture.numero as voiture_numero, garage_slots.nom as slot_nom');
+        $this->db->from('garage_rendez_vous');
+        $this->db->join('garage_services', 'garage_rendez_vous.id_service = garage_services.id');
+        $this->db->join('garage_voiture', 'garage_rendez_vous.id_voiture = garage_voiture.id');
+        $this->db->join('garage_slots', 'garage_rendez_vous.id_slot = garage_slots.id');
+        $this->db->where('garage_rendez_vous.id', $id);
         $query = $this->db->get();
         $rendez_vous = $query->row();
 
         if (!$rendez_vous) {
-            echo "Rendez-vous non trouvé";
-            return;
+            return false;
         }
 
         // Créer un nouveau PDF
@@ -124,7 +128,13 @@ class RendezVous extends CI_Model {
         $pdf->Cell(40, 10, 'Date Paiement:', 0);
         $pdf->Cell(0, 10, $rendez_vous->date_paiement, 0, 1);
 
-        // Générer et afficher le PDF
-        $pdf->Output('D', 'rendez_vous_' . $rendez_vous->id . '.pdf');
+        // Générer le nom du fichier PDF
+        $pdf_file = 'rendez_vous_' . $rendez_vous->id . '.pdf';
+        $pdf_path = FCPATH . $pdf_file;
+
+        // Sauvegarder le PDF sur le serveur
+        $pdf->Output('F', $pdf_path);
+
+        return $pdf_file; // Retourner le chemin relatif du fichier PDF
     }
 }

@@ -27,15 +27,14 @@
                 <span class="fw-bold placeholder-wave text-primary" style="font-size: 39px;">Garazy</span>
                 <div class="collapse navbar-collapse " id="navbarNavDropdown-1" style="margin-left: 16.696%;">
                     <ul class="ms-auto navbar-nav">
-                        <li class="nav-item"> <a class="active nav-link" aria-current="page" href="client_home">Home</a>
+                        <li class="nav-item"> <a class="active nav-link" aria-current="page" href="<?php echo site_url('Client_home'); ?>">Home</a>
                         </li>
                         <li class="nav-item">
                         </li>
                         <li class="nav-item">
                         </li>
-                        <li class="nav-item"> <a class="nav-link" href="client_service">Services</a>
-                        </li>
-                        
+                        <li class="nav-item dropdown">
+                        </li> <a class="nav-link" href="<?php echo site_url('Client_rdv'); ?>">Rendez-vous</a>
                     </ul>
                 </div>
             </div>

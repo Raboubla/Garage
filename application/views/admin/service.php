@@ -324,4 +324,3 @@
                 });
             });
         </script>
-quand j'utilise update, peut import le bouton clique la modification se fait toujours sur le dernier element

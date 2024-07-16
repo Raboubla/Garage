@@ -6,7 +6,7 @@
                     </div>
                     <!-- End Col -->
                     <div class="col-md-auto">
-                        <div class="d-grid d-sm-flex gap-3"><a class="btn btn-primary" href="#">Rendez-vous</a><a class="btn btn-ghost-light btn-pointer" href="#">Deconnexion</a>
+                        <div class="d-grid d-sm-flex gap-3"><a class="btn btn-primary" href="#">Rendez-vous</a><a class="btn btn-ghost-light btn-pointer" href="<?php echo site_url('Login/LogoutUser'); ?>">Deconnexion</a>
                         </div>
                     </div>
                     <!-- End Col -->
